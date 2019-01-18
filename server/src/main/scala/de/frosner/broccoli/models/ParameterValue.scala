@@ -1,7 +1,6 @@
 package de.frosner.broccoli.models
 
-import com.typesafe.config.{Config, ConfigValue, ConfigValueType}
-import com.typesafe.config.impl.ConfigInt
+import com.typesafe.config.ConfigValue
 import de.frosner.broccoli.services.{ParameterNotFoundException, ParameterValueParsingException}
 import org.apache.commons.lang3.StringEscapeUtils
 import play.api.libs.json._
