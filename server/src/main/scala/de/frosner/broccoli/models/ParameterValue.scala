@@ -30,6 +30,8 @@ object ParameterValue {
             throw ParameterValueParsingException(paramName, s"${number.toString} is not a valid integer")
         case ParameterType.Decimal =>
           DecimalParameterValue(BigDecimal(configValue.unwrapped().asInstanceOf[Number].toString))
+        case ParameterType.Boolean =>
+          BooleanParameterValue(configValue.unwrapped().asInstanceOf[Boolean])
       }
     }
 
@@ -57,6 +59,8 @@ object ParameterValue {
           IntParameterValue(jsValue.as[Int])
         case ParameterType.Decimal =>
           DecimalParameterValue(jsValue.as[BigDecimal])
+        case ParameterType.Boolean =>
+          BooleanParameterValue(jsValue.as[Boolean])
       }
     }
 }
@@ -85,4 +89,8 @@ case class StringParameterValue(value: String) extends ParameterValue {
 case class RawParameterValue(value: String) extends ParameterValue {
   override def asJsonString: String = value
   override def asJsValue: JsValue = JsString(value)
+}
+case class BooleanParameterValue(value: Boolean) extends ParameterValue {
+  override def asJsonString: String = value.toString
+  override def asJsValue: JsValue = JsBoolean(value)
 }
