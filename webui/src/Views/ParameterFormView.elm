@@ -638,21 +638,34 @@ newParameterValueView template parameterInfos maybeInstanceParameterForm enabled
                                     ]
                                 ]
                           , input
-                                [ type_
-                                    (if (isSecret && (not secretVisible)) then
-                                        "password"
-                                     else
-                                        "text"
-                                    )
-                                , class (String.concat [ "form-control ", inputErrorClass ])
-                                , attribute "aria-label" parameter
-                                , placeholder placeholderValue
-                                , value parameterValue
-                                , disabled (not enabled)
-                                , id <| String.concat [ "new-instance-form-parameter-input-", template.id, "-", parameter ]
-                                , onInput (EnterNewInstanceParameterValue template.id parameter)
-                                ]
-                                []
+                                (if (dataType == BooleanParam) then
+                                    [ type_
+                                          "checkbox"
+                                      , class (String.concat [ "form-control ", inputErrorClass ])
+                                      , attribute "aria-label" parameter
+                                      , placeholder placeholderValue
+                                      , value parameterValue
+                                      , disabled (not enabled)
+                                      , id <| String.concat [ "new-instance-form-parameter-input-", template.id, "-", parameter ]
+                                      , onInput (EnterNewInstanceParameterValue template.id parameter)
+                                      ]
+                                else
+                                    [ type_
+                                        (if (isSecret && (not secretVisible)) then
+                                            "password"
+                                         else
+                                            "text"
+                                        )
+                                    , class (String.concat [ "form-control ", inputErrorClass ])
+                                    , attribute "aria-label" parameter
+                                    , placeholder placeholderValue
+                                    , value parameterValue
+                                    , disabled (not enabled)
+                                    , id <| String.concat [ "new-instance-form-parameter-input-", template.id, "-", parameter ]
+                                    , onInput (EnterNewInstanceParameterValue template.id parameter)
+                                    ]
+                                )
+                            []
                           ]
                         , if (isSecret) then
                             [ div
