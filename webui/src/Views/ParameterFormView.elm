@@ -753,5 +753,8 @@ dataTypeToTitle dataType =
 
             DecimalParam ->
                 "Decimal"
+
+            BooleanParam ->
+                "Boolean"
         , ")"
         ]

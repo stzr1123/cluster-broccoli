@@ -27,6 +27,7 @@ type ParameterType
     | StringParam
     | IntParam
     | DecimalParam
+    | BooleanParam
 
 
 type ParameterValue
@@ -34,6 +35,7 @@ type ParameterValue
     | StringVal String
     | RawVal String
     | DecimalVal Float -- Looks like Elm does not support bigger decimals like Java's BigDecimal
+    | BooleanVal Bool
 
 
 type alias ParameterInfo =
@@ -87,6 +89,9 @@ decodeDataType =
 
                     "string" ->
                         Decode.succeed StringParam
+
+                    "boolean" ->
+                        Decode.succeed BooleanParam
 
                     "raw" ->
                         Decode.succeed RawParam
@@ -145,6 +150,13 @@ decodeParamValue paramType =
                         Decode.succeed (DecimalVal paramValue)
                     )
 
+        BooleanParam ->
+                    Decode.bool
+                        |> Decode.andThen
+                            (\paramValue ->
+                                Decode.succeed (BooleanVal paramValue)
+                        )
+
         StringParam ->
             Decode.string
                 |> Decode.andThen
@@ -170,6 +182,9 @@ encodeParamValue paramValue =
 
         StringVal x ->
             Encode.string x
+
+        BooleanVal x ->
+            Encode.bool x
 
         RawVal x ->
             Encode.string x
@@ -215,6 +230,9 @@ valueToString paramValue =
         DecimalVal val ->
             toString val
 
+        BooleanVal val ->
+            toString val
+
         RawVal val ->
             val
 
@@ -233,6 +251,9 @@ dataTypeToString dataType =
 
         DecimalParam ->
             "decimal"
+
+        BooleanParam ->
+            "boolean"
 
 
 wrapValue paramType paramValue =
