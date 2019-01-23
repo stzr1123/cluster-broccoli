@@ -218,6 +218,21 @@ maybeValueToString maybeParamValue =
         |> Maybe.andThen (\paramValue -> Just (valueToString paramValue))
 
 
+castValueToBool : ParameterValue -> Bool
+castValueToBool paramValue =
+    case paramValue of
+        BooleanVal x ->
+            x == True
+        _ ->
+            False
+
+
+maybeValueToBool : Maybe ParameterValue -> Maybe Bool
+maybeValueToBool maybeParamValue =
+    maybeParamValue
+        |> Maybe.map (\paramValue -> castValueToBool paramValue)
+
+
 valueToString : ParameterValue -> String
 valueToString paramValue =
     case paramValue of

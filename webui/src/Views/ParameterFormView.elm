@@ -578,6 +578,12 @@ newParameterValueView template parameterInfos maybeInstanceParameterForm enabled
                     |> Maybe.andThen (\i -> (maybeValueToString i.default))
                     |> Maybe.withDefault ""
 
+            -- Set default state for toggled parameters
+            placeholderToggleValue =
+                maybeParameterInfo
+                    |> Maybe.andThen (\i -> (maybeValueToBool i.default))
+                    |> Maybe.withDefault False
+
             parameterValue =
                 maybeEditedValue
                     |> Maybe.withDefault ""
@@ -643,11 +649,11 @@ newParameterValueView template parameterInfos maybeInstanceParameterForm enabled
                                           "checkbox"
                                       , class (String.concat [ "form-control ", inputErrorClass ])
                                       , attribute "aria-label" parameter
-                                      , placeholder placeholderValue
                                       , value parameterValue
                                       , disabled (not enabled)
                                       , id <| String.concat [ "new-instance-form-parameter-input-", template.id, "-", parameter ]
-                                      , onInput (EnterNewInstanceParameterValue template.id parameter)
+--                                      , onCheck (???)  -- Toggle the param in the model
+                                      , checked placeholderToggleValue
                                       ]
                                 else
                                     [ type_
